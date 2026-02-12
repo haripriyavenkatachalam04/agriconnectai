@@ -8,8 +8,8 @@ import Index from "./pages/Index";
 import DiseaseDetection from "./pages/DiseaseDetection";
 import PriceForecast from "./pages/PriceForecast";
 import Marketplace from "./pages/Marketplace";
+import CropRecommend from "./pages/CropRecommend";
 import NotFound from "./pages/NotFound";
-
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -24,6 +24,7 @@ const App = () => (
             <Route path="/detect" element={<DiseaseDetection />} />
             <Route path="/forecast" element={<PriceForecast />} />
             <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/recommend" element={<CropRecommend />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AppLayout>

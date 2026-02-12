@@ -1,12 +1,13 @@
 import { ReactNode, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Leaf, BarChart3, Camera, Store, Menu, X, Home } from "lucide-react";
+import { Leaf, BarChart3, Camera, Store, Menu, X, Home, Sprout } from "lucide-react";
 
 const navItems = [
   { path: "/", label: "Dashboard", icon: Home },
   { path: "/detect", label: "Disease Detection", icon: Camera },
   { path: "/forecast", label: "Price Forecast", icon: BarChart3 },
+  { path: "/recommend", label: "Crop Advice", icon: Sprout },
   { path: "/marketplace", label: "Marketplace", icon: Store },
 ];
 
