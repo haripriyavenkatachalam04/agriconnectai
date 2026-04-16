@@ -14,7 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      disease_detections: {
+        Row: {
+          additional_notes: string | null
+          created_at: string
+          crop_type: string
+          diseases: Json
+          id: string
+          image_url: string | null
+        }
+        Insert: {
+          additional_notes?: string | null
+          created_at?: string
+          crop_type: string
+          diseases?: Json
+          id?: string
+          image_url?: string | null
+        }
+        Update: {
+          additional_notes?: string | null
+          created_at?: string
+          crop_type?: string
+          diseases?: Json
+          id?: string
+          image_url?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

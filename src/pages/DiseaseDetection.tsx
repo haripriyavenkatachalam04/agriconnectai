@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import DetectionHistory from "@/components/DetectionHistory";
 
 interface DiseaseResult {
   disease: string;
@@ -78,7 +79,15 @@ export default function DiseaseDetection() {
         return;
       }
 
-      setResult(data as AnalysisResult);
+      const analysisData = data as AnalysisResult;
+      setResult(analysisData);
+
+      // Save to database
+      await supabase.from("disease_detections").insert({
+        crop_type: analysisData.crop_type,
+        diseases: analysisData.diseases as any,
+        additional_notes: analysisData.additional_notes,
+      });
     } catch (err) {
       console.error("Analysis error:", err);
       toast.error("Something went wrong. Please try again.");
@@ -312,6 +321,8 @@ export default function DiseaseDetection() {
           </AnimatePresence>
         </div>
       </div>
+
+      <DetectionHistory />
     </div>
   );
 }
