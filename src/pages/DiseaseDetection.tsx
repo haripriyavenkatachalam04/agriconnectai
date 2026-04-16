@@ -79,7 +79,15 @@ export default function DiseaseDetection() {
         return;
       }
 
-      setResult(data as AnalysisResult);
+      const analysisData = data as AnalysisResult;
+      setResult(analysisData);
+
+      // Save to database
+      await supabase.from("disease_detections").insert({
+        crop_type: analysisData.crop_type,
+        diseases: analysisData.diseases as any,
+        additional_notes: analysisData.additional_notes,
+      });
     } catch (err) {
       console.error("Analysis error:", err);
       toast.error("Something went wrong. Please try again.");
@@ -313,6 +321,8 @@ export default function DiseaseDetection() {
           </AnimatePresence>
         </div>
       </div>
+
+      <DetectionHistory />
     </div>
   );
 }
