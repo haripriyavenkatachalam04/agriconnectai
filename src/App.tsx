@@ -17,7 +17,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename="/agriconnectai">
         <AppLayout>
           <Routes>
             <Route path="/" element={<Index />} />
