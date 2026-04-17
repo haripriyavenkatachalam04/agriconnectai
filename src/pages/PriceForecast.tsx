@@ -20,6 +20,7 @@ const generateData = (crop: string) => {
 };
 
 export default function PriceForecast() {
+  const { t } = useLanguage();
   const [crop, setCrop] = useState("Paddy");
   const data = generateData(crop);
   const lastActual = data.filter(d => d.actual).pop()?.actual || 0;
@@ -31,10 +32,10 @@ export default function PriceForecast() {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-3xl md:text-4xl font-display font-bold">
           <BarChart3 className="inline h-8 w-8 mr-3 text-primary" />
-          Market Price Forecast
+          {t("pf_title")}
         </h1>
         <p className="mt-2 text-muted-foreground max-w-2xl">
-          30-day price predictions powered by 3-layer LSTM models trained on 5 years of Tamil Nadu mandi and IMD weather data.
+          {t("pf_desc")}
         </p>
       </motion.div>
 
@@ -51,10 +52,10 @@ export default function PriceForecast() {
         </Select>
         <div className="flex items-center gap-4 text-sm">
           <span className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-primary" /> Actual
+            <span className="h-3 w-3 rounded-full bg-primary" /> {t("pf_actual")}
           </span>
           <span className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-secondary" /> Predicted
+            <span className="h-3 w-3 rounded-full bg-secondary" /> {t("pf_predicted")}
           </span>
         </div>
       </div>
@@ -94,25 +95,25 @@ export default function PriceForecast() {
       {/* Summary cards */}
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card rounded-xl p-5">
-          <p className="text-sm text-muted-foreground">Current Price</p>
+          <p className="text-sm text-muted-foreground">{t("pf_current")}</p>
           <p className="mt-1 text-2xl font-bold">₹{lastActual.toLocaleString()}</p>
-          <p className="text-xs text-muted-foreground">per quintal</p>
+          <p className="text-xs text-muted-foreground">{t("pf_per_quintal")}</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card rounded-xl p-5">
-          <p className="text-sm text-muted-foreground">30-Day Forecast</p>
+          <p className="text-sm text-muted-foreground">{t("pf_30day")}</p>
           <p className="mt-1 text-2xl font-bold">₹{lastPredicted.toLocaleString()}</p>
           <div className={`flex items-center gap-1 text-sm font-medium ${trend ? "text-primary" : "text-destructive"}`}>
             {trend ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
-            {trend ? "Upward" : "Downward"} trend
+            {trend ? t("pf_upward") : t("pf_downward")}
           </div>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card rounded-xl p-5">
-          <p className="text-sm text-muted-foreground">Best Sell Window</p>
+          <p className="text-sm text-muted-foreground">{t("pf_best_window")}</p>
           <div className="mt-1 flex items-center gap-2">
             <Calendar className="h-5 w-5 text-primary" />
             <p className="text-lg font-semibold">Feb 15 – Mar 5</p>
           </div>
-          <p className="text-xs text-muted-foreground">Based on predicted peak</p>
+          <p className="text-xs text-muted-foreground">{t("pf_best_window_sub")}</p>
         </motion.div>
       </div>
     </div>
