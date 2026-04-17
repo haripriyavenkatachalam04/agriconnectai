@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const soilTypes = ["Alluvial", "Red Soil", "Black Cotton", "Laterite", "Sandy", "Clay", "Loamy", "Saline"];
 const weatherOptions = ["Hot & Dry", "Hot & Humid", "Warm & Moderate", "Cool & Wet", "Monsoon Season", "Post-Monsoon"];
@@ -27,6 +28,7 @@ interface AIResult {
 }
 
 export default function CropRecommend() {
+  const { t } = useLanguage();
   const [soilType, setSoilType] = useState("");
   const [weather, setWeather] = useState("");
   const [cropHistory, setCropHistory] = useState("");
@@ -36,7 +38,7 @@ export default function CropRecommend() {
 
   const handleSubmit = async () => {
     if (!soilType || !weather || !cropHistory.trim()) {
-      toast.error("Please fill in all required fields");
+      toast.error(t("cr_required"));
       return;
     }
 
@@ -60,7 +62,7 @@ export default function CropRecommend() {
       setResult(data);
     } catch (err: any) {
       console.error(err);
-      toast.error(err.message || "Something went wrong. Please try again.");
+      toast.error(err.message || t("cr_err_generic"));
     } finally {
       setLoading(false);
     }
@@ -71,10 +73,10 @@ export default function CropRecommend() {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-3xl md:text-4xl font-display font-bold">
           <Sprout className="inline h-8 w-8 mr-3 text-primary" />
-          Crop Recommendation
+          {t("cr_title")}
         </h1>
         <p className="mt-2 text-muted-foreground max-w-2xl">
-          Enter your farm details and get AI-powered crop recommendations tailored to your soil, weather, and region in Tamil Nadu.
+          {t("cr_desc")}
         </p>
       </motion.div>
 
@@ -89,11 +91,11 @@ export default function CropRecommend() {
           <div className="glass-card rounded-2xl p-6 space-y-5">
             <div className="space-y-2">
               <Label className="flex items-center gap-2 text-sm font-medium">
-                <Leaf className="h-4 w-4 text-primary" /> Soil Type *
+                <Leaf className="h-4 w-4 text-primary" /> {t("cr_soil")} *
               </Label>
               <Select value={soilType} onValueChange={setSoilType}>
                 <SelectTrigger className="rounded-xl">
-                  <SelectValue placeholder="Select soil type" />
+                  <SelectValue placeholder={t("cr_soil_ph")} />
                 </SelectTrigger>
                 <SelectContent>
                   {soilTypes.map((s) => (
@@ -105,11 +107,11 @@ export default function CropRecommend() {
 
             <div className="space-y-2">
               <Label className="flex items-center gap-2 text-sm font-medium">
-                <Sun className="h-4 w-4 text-secondary" /> Weather Conditions *
+                <Sun className="h-4 w-4 text-secondary" /> {t("cr_weather")} *
               </Label>
               <Select value={weather} onValueChange={setWeather}>
                 <SelectTrigger className="rounded-xl">
-                  <SelectValue placeholder="Select current weather" />
+                  <SelectValue placeholder={t("cr_weather_ph")} />
                 </SelectTrigger>
                 <SelectContent>
                   {weatherOptions.map((w) => (
@@ -121,25 +123,25 @@ export default function CropRecommend() {
 
             <div className="space-y-2">
               <Label className="flex items-center gap-2 text-sm font-medium">
-                <CloudRain className="h-4 w-4 text-agri-sky" /> Previous Crops *
+                <CloudRain className="h-4 w-4 text-agri-sky" /> {t("cr_history")} *
               </Label>
               <Input
-                placeholder="e.g., Paddy, Sugarcane, Groundnut"
+                placeholder={t("cr_history_ph")}
                 value={cropHistory}
                 onChange={(e) => setCropHistory(e.target.value)}
                 className="rounded-xl"
                 maxLength={200}
               />
-              <p className="text-xs text-muted-foreground">Comma-separated list of crops you've grown recently</p>
+              <p className="text-xs text-muted-foreground">{t("cr_history_help")}</p>
             </div>
 
             <div className="space-y-2">
               <Label className="flex items-center gap-2 text-sm font-medium">
-                <MapPin className="h-4 w-4 text-destructive" /> Region
+                <MapPin className="h-4 w-4 text-destructive" /> {t("cr_region")}
               </Label>
               <Select value={region} onValueChange={setRegion}>
                 <SelectTrigger className="rounded-xl">
-                  <SelectValue placeholder="Select region (optional)" />
+                  <SelectValue placeholder={t("cr_region_ph")} />
                 </SelectTrigger>
                 <SelectContent>
                   {regions.map((r) => (
@@ -158,12 +160,12 @@ export default function CropRecommend() {
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Analyzing...
+                  {t("cr_loading")}
                 </>
               ) : (
                 <>
                   <Sprout className="mr-2 h-5 w-5" />
-                  Get Recommendations
+                  {t("cr_get")}
                 </>
               )}
             </Button>
@@ -182,9 +184,9 @@ export default function CropRecommend() {
                 className="glass-card rounded-2xl p-8 text-center"
               >
                 <Loader2 className="h-10 w-10 mx-auto animate-spin text-primary" />
-                <p className="mt-4 font-medium">AI is analyzing your farm details...</p>
+                <p className="mt-4 font-medium">{t("cr_analyzing")}</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Evaluating soil compatibility, weather patterns, and crop rotation benefits
+                  {t("cr_analyzing_sub")}
                 </p>
               </motion.div>
             )}
@@ -226,17 +228,17 @@ export default function CropRecommend() {
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
                       <div className="flex items-center gap-2 text-sm">
                         <Sprout className="h-4 w-4 text-primary shrink-0" />
-                        <span><span className="font-medium">Yield:</span> {rec.expectedYield}</span>
+                        <span><span className="font-medium">{t("cr_yield")}:</span> {rec.expectedYield}</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm">
                         <Calendar className="h-4 w-4 text-secondary shrink-0" />
-                        <span><span className="font-medium">Plant:</span> {rec.plantingWindow}</span>
+                        <span><span className="font-medium">{t("cr_plant")}:</span> {rec.plantingWindow}</span>
                       </div>
                     </div>
 
                     {rec.careTips.length > 0 && (
                       <div className="mt-4 space-y-2">
-                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Care Tips</p>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t("cr_care_tips")}</p>
                         <ul className="space-y-1.5">
                           {rec.careTips.map((tip, j) => (
                             <li key={j} className="flex items-start gap-2 text-sm">
@@ -251,7 +253,7 @@ export default function CropRecommend() {
                 ))}
 
                 <Button variant="outline" className="w-full rounded-xl" onClick={() => setResult(null)}>
-                  Try Different Inputs
+                  {t("cr_try_again")}
                 </Button>
               </motion.div>
             )}
@@ -264,9 +266,9 @@ export default function CropRecommend() {
                 className="glass-card rounded-2xl p-10 text-center"
               >
                 <Sprout className="h-14 w-14 mx-auto text-muted-foreground/30" />
-                <p className="mt-4 text-lg font-medium">AI-Powered Recommendations</p>
+                <p className="mt-4 text-lg font-medium">{t("cr_empty_title")}</p>
                 <p className="mt-2 text-muted-foreground max-w-md mx-auto">
-                  Fill in your farm details and our AI will analyze soil compatibility, weather patterns, and crop rotation to suggest the best crops for you.
+                  {t("cr_empty_desc")}
                 </p>
               </motion.div>
             )}

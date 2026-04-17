@@ -1,30 +1,33 @@
 import { ReactNode, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Leaf, BarChart3, Camera, Menu, X, Home, Sprout } from "lucide-react";
-
-const navItems = [
-  { path: "/", label: "Dashboard", icon: Home },
-  { path: "/detect", label: "Disease Detection", icon: Camera },
-  { path: "/forecast", label: "Price Forecast", icon: BarChart3 },
-  { path: "/recommend", label: "Crop Advice", icon: Sprout },
-];
+import { Leaf, BarChart3, Camera, Menu, X, Home, Sprout, Languages } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
+import { Button } from "@/components/ui/button";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { t, lang, toggle } = useLanguage();
+
+  const navItems = [
+    { path: "/", label: t("nav_dashboard"), icon: Home },
+    { path: "/detect", label: t("nav_detect"), icon: Camera },
+    { path: "/forecast", label: t("nav_forecast"), icon: BarChart3 },
+    { path: "/recommend", label: t("nav_recommend"), icon: Sprout },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
       {/* Top Nav */}
       <header className="sticky top-0 z-50 glass-card border-b">
-        <div className="container flex h-16 items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
+        <div className="container flex h-16 items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-2 shrink-0">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
               <Leaf className="h-5 w-5 text-primary-foreground" />
             </div>
             <span className="font-display text-xl font-bold text-foreground">
-              AgriConnect <span className="text-primary">AI</span>
+              {t("brand_a")} <span className="text-primary">{t("brand_b")}</span>
             </span>
           </Link>
 
@@ -57,13 +60,28 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             })}
           </nav>
 
-          {/* Mobile toggle */}
-          <button
-            className="md:hidden p-2 rounded-lg hover:bg-accent"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Language toggle */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggle}
+              className="rounded-full gap-1.5 h-9"
+              aria-label="Toggle language"
+            >
+              <Languages className="h-4 w-4" />
+              <span className="text-xs font-semibold">{t("lang_toggle")}</span>
+            </Button>
+
+            {/* Mobile toggle */}
+            <button
+              className="md:hidden p-2 rounded-lg hover:bg-accent"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile nav */}
@@ -104,7 +122,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       <main>
         <AnimatePresence mode="wait">
           <motion.div
-            key={location.pathname}
+            key={location.pathname + lang}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}

@@ -9,25 +9,28 @@ import DiseaseDetection from "./pages/DiseaseDetection";
 import PriceForecast from "./pages/PriceForecast";
 import CropRecommend from "./pages/CropRecommend";
 import NotFound from "./pages/NotFound";
+import { LanguageProvider } from "./i18n/LanguageContext";
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter basename="/agriconnectai">
-        <AppLayout>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/detect" element={<DiseaseDetection />} />
-            <Route path="/forecast" element={<PriceForecast />} />
-            <Route path="/recommend" element={<CropRecommend />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AppLayout>
-      </BrowserRouter>
-    </TooltipProvider>
+    <LanguageProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter basename="/agriconnectai">
+          <AppLayout>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/detect" element={<DiseaseDetection />} />
+              <Route path="/forecast" element={<PriceForecast />} />
+              <Route path="/recommend" element={<CropRecommend />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AppLayout>
+        </BrowserRouter>
+      </TooltipProvider>
+    </LanguageProvider>
   </QueryClientProvider>
 );
 
