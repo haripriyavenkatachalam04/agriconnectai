@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { BarChart3, TrendingUp, TrendingDown, Calendar } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const crops = ["Paddy", "Sugarcane", "Tomato", "Onion", "Cotton"];
 
