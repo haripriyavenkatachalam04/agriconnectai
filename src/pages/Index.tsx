@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Camera, BarChart3, Store, TrendingUp, Sprout, Users, ShieldCheck } from "lucide-react";
+import { Camera, BarChart3, TrendingUp, Sprout, Users, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import StatCard from "@/components/StatCard";
 import heroImage from "@/assets/hero-farm.jpg";
@@ -28,10 +28,10 @@ const features = [
     color: "bg-secondary/20 text-secondary-foreground",
   },
   {
-    icon: Store,
-    title: "P2P Marketplace",
-    desc: "Sell directly to buyers. Eliminate middlemen and increase your income by 20-30%.",
-    path: "/marketplace",
+    icon: Sprout,
+    title: "Crop Advice",
+    desc: "Get AI-powered crop recommendations based on your soil, weather, and crop history.",
+    path: "/recommend",
     color: "bg-agri-sky/10 text-agri-sky",
   },
 ];
@@ -60,7 +60,7 @@ export default function Index() {
               AgriConnect AI
             </h1>
             <p className="mt-4 text-lg text-primary-foreground/80 max-w-lg leading-relaxed">
-              Crop disease detection, market price forecasting, and direct farmer-to-buyer marketplace — all in one platform built for Tamil Nadu farmers.
+              Crop disease detection, market price forecasting, and personalized crop recommendations — all in one platform built for Tamil Nadu farmers.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Button asChild size="lg" className="rounded-full text-base px-8">
@@ -95,7 +95,7 @@ export default function Index() {
             Everything Farmers Need
           </h2>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
-            An integrated platform combining AI disease detection, price prediction, and a direct marketplace.
+            An integrated platform combining AI disease detection, price prediction, and crop recommendations.
           </p>
         </motion.div>
         <div className="grid gap-6 md:grid-cols-3">
@@ -143,7 +143,7 @@ export default function Index() {
             {[
               { label: "Yield Loss Prevented", value: "25-40%", sub: "via early disease detection" },
               { label: "Price Stability", value: "±50%", sub: "reduced via LSTM forecasting" },
-              { label: "Income Increase", value: "20-30%", sub: "via P2P marketplace" },
+              { label: "Better Crop Choices", value: "20-30%", sub: "via AI crop recommendations" },
             ].map((item, i) => (
               <motion.div
                 key={item.label}
