@@ -322,7 +322,7 @@ export default function DiseaseDetection() {
         </div>
       </div>
 
-      <DetectionHistory />
+      
     </div>
   );
 }
