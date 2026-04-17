@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 
 interface DiseaseResult {
@@ -23,6 +24,7 @@ interface AnalysisResult {
 }
 
 export default function DiseaseDetection() {
+  const { t } = useLanguage();
   const [dragActive, setDragActive] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
@@ -62,7 +64,7 @@ export default function DiseaseDetection() {
 
       if (error) {
         console.error("Edge function error:", error);
-        toast.error("Analysis failed. Please try again.");
+        toast.error(t("dd_err_failed"));
         setAnalyzing(false);
         return;
       }
@@ -74,7 +76,7 @@ export default function DiseaseDetection() {
       }
 
       if (!data?.is_plant) {
-        toast.warning("The uploaded image doesn't appear to be a plant. Please upload a crop leaf image.");
+        toast.warning(t("dd_err_not_plant"));
         setAnalyzing(false);
         return;
       }
@@ -90,7 +92,7 @@ export default function DiseaseDetection() {
       });
     } catch (err) {
       console.error("Analysis error:", err);
-      toast.error("Something went wrong. Please try again.");
+      toast.error(t("dd_err_generic"));
     } finally {
       setAnalyzing(false);
     }
@@ -130,10 +132,10 @@ export default function DiseaseDetection() {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-3xl md:text-4xl font-display font-bold">
           <Camera className="inline h-8 w-8 mr-3 text-primary" />
-          AI Crop Disease Detection
+          {t("dd_title")}
         </h1>
         <p className="mt-2 text-muted-foreground max-w-2xl">
-          Upload a photo of your crop leaf and our AI vision model will identify diseases with confidence scores and recommend treatments.
+          {t("dd_desc")}
         </p>
       </motion.div>
 
@@ -156,8 +158,8 @@ export default function DiseaseDetection() {
                 <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-accent">
                   <Upload className="h-7 w-7 text-accent-foreground" />
                 </div>
-                <p className="mt-4 text-lg font-medium">Drop your crop image here</p>
-                <p className="mt-1 text-sm text-muted-foreground">or click to browse (JPG, PNG)</p>
+                <p className="mt-4 text-lg font-medium">{t("dd_drop")}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{t("dd_browse")}</p>
               </>
             )}
             <input id="file-input" type="file" accept="image/*" className="hidden" onChange={handleInput} />
@@ -177,11 +179,11 @@ export default function DiseaseDetection() {
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-3 w-3 rounded-full bg-primary animate-pulse" />
-                  <p className="font-medium">Analyzing crop image with AI...</p>
+                  <p className="font-medium">{t("dd_analyzing")}</p>
                 </div>
                 <Progress value={progressValue} className="h-2" />
                 <p className="mt-3 text-sm text-muted-foreground">
-                  Running AI vision analysis to detect diseases and assess severity
+                  {t("dd_analyzing_sub")}
                 </p>
               </motion.div>
             )}
@@ -197,7 +199,7 @@ export default function DiseaseDetection() {
                 <div className="glass-card rounded-2xl p-5">
                   <div className="flex items-center gap-2 mb-2">
                     <Leaf className="h-5 w-5 text-primary" />
-                    <span className="font-semibold">Crop Identified</span>
+                    <span className="font-semibold">{t("dd_crop_identified")}</span>
                   </div>
                   <p className="text-xl font-display font-bold">{result.crop_type}</p>
                 </div>
@@ -218,7 +220,7 @@ export default function DiseaseDetection() {
                         <AlertTriangle className="h-5 w-5 text-destructive" />
                       )}
                       <span className="font-semibold">
-                        {d.disease === "Healthy" ? "Plant is Healthy" : "Disease Detected"}
+                        {d.disease === "Healthy" ? t("dd_healthy") : t("dd_disease_detected")}
                       </span>
                     </div>
 
@@ -226,11 +228,11 @@ export default function DiseaseDetection() {
 
                     <div className="mt-4 flex items-center gap-6">
                       <div>
-                        <p className="text-sm text-muted-foreground">Confidence</p>
+                        <p className="text-sm text-muted-foreground">{t("dd_confidence")}</p>
                         <p className="text-2xl font-bold text-primary">{d.confidence}%</p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Severity</p>
+                        <p className="text-sm text-muted-foreground">{t("dd_severity")}</p>
                         <p className={`text-lg font-semibold ${severityColor(d.severity)}`}>
                           {d.severity}
                         </p>
@@ -247,7 +249,7 @@ export default function DiseaseDetection() {
                       <div className="mt-4">
                         <div className="flex items-center gap-2 mb-2">
                           <Eye className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm font-medium">Observed Symptoms</span>
+                          <span className="text-sm font-medium">{t("dd_symptoms")}</span>
                         </div>
                         <ul className="space-y-1">
                           {d.symptoms.map((s, j) => (
@@ -265,7 +267,7 @@ export default function DiseaseDetection() {
                       <div className="mt-4">
                         <div className="flex items-center gap-2 mb-2">
                           <CheckCircle2 className="h-4 w-4 text-primary" />
-                          <span className="text-sm font-medium">Recommended Treatment</span>
+                          <span className="text-sm font-medium">{t("dd_treatment")}</span>
                         </div>
                         <ul className="space-y-2">
                           {d.treatment.map((t, j) => (
@@ -293,7 +295,7 @@ export default function DiseaseDetection() {
                   className="w-full rounded-xl"
                   onClick={() => { setResult(null); setPreview(null); }}
                 >
-                  Upload Another Image
+                  {t("dd_upload_another")}
                 </Button>
               </motion.div>
             )}
@@ -307,7 +309,7 @@ export default function DiseaseDetection() {
               >
                 <Camera className="h-12 w-12 mx-auto text-muted-foreground/40" />
                 <p className="mt-4 text-muted-foreground">
-                  Upload a crop leaf image to get AI-powered disease detection with confidence scores.
+                  {t("dd_empty")}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2 justify-center">
                   {["Paddy", "Sugarcane", "Tomato", "Cotton", "Groundnut", "Banana"].map((crop) => (
