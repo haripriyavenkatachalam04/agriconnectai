@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { ModelStatus } from "@/components/ModelStatus";
 
 const CROPS = ["Paddy", "Sugarcane", "Tomato", "Onion", "Cotton", "Groundnut", "Maize", "Turmeric"] as const;
 const MANDIS = [
@@ -391,6 +392,8 @@ export default function PriceForecast() {
           </div>
         </motion.div>
       )}
+
+      <ModelStatus />
 
       <p className="mt-6 text-xs text-muted-foreground flex items-center gap-2">
         <Info className="h-3.5 w-3.5" />

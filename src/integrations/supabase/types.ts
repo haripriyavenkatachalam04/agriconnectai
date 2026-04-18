@@ -41,6 +41,54 @@ export type Database = {
         }
         Relationships: []
       }
+      ml_models: {
+        Row: {
+          architecture: string
+          created_at: string
+          crops: Json
+          hidden_size: number
+          id: string
+          is_active: boolean
+          mandis: Json
+          notes: string | null
+          sequence_length: number
+          storage_path: string
+          train_samples: number | null
+          val_mape: number | null
+          version: string
+        }
+        Insert: {
+          architecture?: string
+          created_at?: string
+          crops?: Json
+          hidden_size?: number
+          id?: string
+          is_active?: boolean
+          mandis?: Json
+          notes?: string | null
+          sequence_length?: number
+          storage_path: string
+          train_samples?: number | null
+          val_mape?: number | null
+          version: string
+        }
+        Update: {
+          architecture?: string
+          created_at?: string
+          crops?: Json
+          hidden_size?: number
+          id?: string
+          is_active?: boolean
+          mandis?: Json
+          notes?: string | null
+          sequence_length?: number
+          storage_path?: string
+          train_samples?: number | null
+          val_mape?: number | null
+          version?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
