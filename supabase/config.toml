@@ -5,3 +5,9 @@ verify_jwt = false
 
 [functions.price-forecast]
 verify_jwt = false
+
+[functions.active-model]
+verify_jwt = false
+
+[functions.upload-training-data]
+verify_jwt = false
