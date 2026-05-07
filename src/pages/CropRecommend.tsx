@@ -90,6 +90,42 @@ export default function CropRecommend() {
           className="space-y-6"
         >
           <div className="glass-card rounded-2xl p-6 space-y-5">
+            <div className="flex items-center justify-between rounded-xl bg-accent/40 px-3 py-2 border border-border/50">
+              <div className="text-xs text-muted-foreground leading-tight pr-2">
+                {t("cr_voice_hint")}
+              </div>
+              <MicButton
+                onTranscript={(text) => {
+                  const lower = text.toLowerCase();
+                  const soilMap: Record<string, string> = {
+                    alluvial: "Alluvial", red: "Red Soil", "red soil": "Red Soil",
+                    black: "Black Cotton", "black cotton": "Black Cotton",
+                    laterite: "Laterite", sandy: "Sandy", clay: "Clay",
+                    loamy: "Loamy", saline: "Saline",
+                    "வண்டல்": "Alluvial", "சிவப்பு": "Red Soil", "கருப்பு": "Black Cotton",
+                    "மணல்": "Sandy", "களிமண்": "Clay",
+                  };
+                  for (const k in soilMap) if (text.includes(k) || lower.includes(k)) { setSoilType(soilMap[k]); break; }
+                  const weatherMap: Record<string, string> = {
+                    "hot and dry": "Hot & Dry", "hot dry": "Hot & Dry",
+                    "hot and humid": "Hot & Humid", humid: "Hot & Humid",
+                    warm: "Warm & Moderate", moderate: "Warm & Moderate",
+                    "cool": "Cool & Wet", wet: "Cool & Wet",
+                    monsoon: "Monsoon Season", rainy: "Monsoon Season", rain: "Monsoon Season",
+                    "post-monsoon": "Post-Monsoon", "post monsoon": "Post-Monsoon",
+                    "மழை": "Monsoon Season", "வெப்பம்": "Hot & Dry", "ஈரப்பதம்": "Hot & Humid",
+                  };
+                  for (const k in weatherMap) if (text.includes(k) || lower.includes(k)) { setWeather(weatherMap[k]); break; }
+                  // Crop history: pick after "previous crop" keyword or fallback to whole text
+                  const m = lower.match(/(?:previous crop|crop|grew|grown|முந்தைய|பயிர்)\s+(.+)$/);
+                  if (m) setCropHistory(m[1].trim());
+                  else if (!Object.keys(soilMap).some(k => lower.includes(k)) && !Object.keys(weatherMap).some(k => lower.includes(k))) {
+                    setCropHistory(text);
+                  }
+                  toast.success(t("cr_voice_filled"));
+                }}
+              />
+            </div>
             <div className="space-y-2">
               <Label className="flex items-center gap-2 text-sm font-medium">
                 <Leaf className="h-4 w-4 text-primary" /> {t("cr_soil")} *
