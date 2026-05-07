@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { MicButton } from "@/components/MicButton";
+import { SmartCropCalendar } from "@/components/SmartCropCalendar";
 
 const soilTypes = ["Alluvial", "Red Soil", "Black Cotton", "Laterite", "Sandy", "Clay", "Loamy", "Saline"];
 const weatherOptions = ["Hot & Dry", "Hot & Humid", "Warm & Moderate", "Cool & Wet", "Monsoon Season", "Post-Monsoon"];
