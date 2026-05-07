@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import StatCard from "@/components/StatCard";
 import heroImage from "@/assets/hero-farm.jpg";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { WeatherWidget } from "@/components/WeatherWidget";
 
 export default function Index() {
   const { t } = useLanguage();
@@ -77,12 +78,15 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Stats */}
+      {/* Stats + Weather */}
       <section className="container -mt-12 relative z-10">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((s, i) => (
-            <StatCard key={s.label} {...s} delay={i * 0.1} />
-          ))}
+        <div className="grid gap-4 lg:grid-cols-[1fr_360px]">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {stats.map((s, i) => (
+              <StatCard key={s.label} {...s} delay={i * 0.1} />
+            ))}
+          </div>
+          <WeatherWidget />
         </div>
       </section>
 
