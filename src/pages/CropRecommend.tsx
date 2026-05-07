@@ -63,6 +63,7 @@ export default function CropRecommend() {
       }
 
       setResult(data);
+      if (data?.recommendations?.length) setSelectedCrop(data.recommendations[0].crop);
     } catch (err: any) {
       console.error(err);
       toast.error(err.message || t("cr_err_generic"));
