@@ -37,6 +37,7 @@ export default function CropRecommend() {
   const [region, setRegion] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AIResult | null>(null);
+  const [selectedCrop, setSelectedCrop] = useState<string | null>(null);
 
   const handleSubmit = async () => {
     if (!soilType || !weather || !cropHistory.trim()) {
