@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { MicButton } from "@/components/MicButton";
+import { SmartCropCalendar } from "@/components/SmartCropCalendar";
 
 const soilTypes = ["Alluvial", "Red Soil", "Black Cotton", "Laterite", "Sandy", "Clay", "Loamy", "Saline"];
 const weatherOptions = ["Hot & Dry", "Hot & Humid", "Warm & Moderate", "Cool & Wet", "Monsoon Season", "Post-Monsoon"];
@@ -36,6 +37,7 @@ export default function CropRecommend() {
   const [region, setRegion] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AIResult | null>(null);
+  const [selectedCrop, setSelectedCrop] = useState<string | null>(null);
 
   const handleSubmit = async () => {
     if (!soilType || !weather || !cropHistory.trim()) {
@@ -61,6 +63,7 @@ export default function CropRecommend() {
       }
 
       setResult(data);
+      if (data?.recommendations?.length) setSelectedCrop(data.recommendations[0].crop);
     } catch (err: any) {
       console.error(err);
       toast.error(err.message || t("cr_err_generic"));
@@ -246,13 +249,16 @@ export default function CropRecommend() {
                 )}
 
                 {/* Cards */}
-                {result.recommendations.map((rec, i) => (
+                {result.recommendations.map((rec, i) => {
+                  const isSelected = selectedCrop === rec.crop;
+                  return (
                   <motion.div
                     key={rec.crop}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="glass-card rounded-2xl p-6"
+                    onClick={() => setSelectedCrop(rec.crop)}
+                    className={`glass-card rounded-2xl p-6 cursor-pointer transition-all hover:scale-[1.01] ${isSelected ? "ring-2 ring-primary" : ""}`}
                   >
                     <div className="flex items-start justify-between">
                       <div>
@@ -290,9 +296,12 @@ export default function CropRecommend() {
                       </div>
                     )}
                   </motion.div>
-                ))}
+                  );
+                })}
 
-                <Button variant="outline" className="w-full rounded-xl" onClick={() => setResult(null)}>
+                {selectedCrop && <SmartCropCalendar crop={selectedCrop} />}
+
+                <Button variant="outline" className="w-full rounded-xl" onClick={() => { setResult(null); setSelectedCrop(null); }}>
                   {t("cr_try_again")}
                 </Button>
               </motion.div>
