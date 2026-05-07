@@ -249,13 +249,16 @@ export default function CropRecommend() {
                 )}
 
                 {/* Cards */}
-                {result.recommendations.map((rec, i) => (
+                {result.recommendations.map((rec, i) => {
+                  const isSelected = selectedCrop === rec.crop;
+                  return (
                   <motion.div
                     key={rec.crop}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="glass-card rounded-2xl p-6"
+                    onClick={() => setSelectedCrop(rec.crop)}
+                    className={`glass-card rounded-2xl p-6 cursor-pointer transition-all hover:scale-[1.01] ${isSelected ? "ring-2 ring-primary" : ""}`}
                   >
                     <div className="flex items-start justify-between">
                       <div>
@@ -293,9 +296,12 @@ export default function CropRecommend() {
                       </div>
                     )}
                   </motion.div>
-                ))}
+                  );
+                })}
 
-                <Button variant="outline" className="w-full rounded-xl" onClick={() => setResult(null)}>
+                {selectedCrop && <SmartCropCalendar crop={selectedCrop} />}
+
+                <Button variant="outline" className="w-full rounded-xl" onClick={() => { setResult(null); setSelectedCrop(null); }}>
                   {t("cr_try_again")}
                 </Button>
               </motion.div>
