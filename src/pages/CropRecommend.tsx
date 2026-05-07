@@ -126,13 +126,16 @@ export default function CropRecommend() {
               <Label className="flex items-center gap-2 text-sm font-medium">
                 <CloudRain className="h-4 w-4 text-agri-sky" /> {t("cr_history")} *
               </Label>
-              <Input
-                placeholder={t("cr_history_ph")}
-                value={cropHistory}
-                onChange={(e) => setCropHistory(e.target.value)}
-                className="rounded-xl"
-                maxLength={200}
-              />
+              <div className="flex items-start gap-2">
+                <Input
+                  placeholder={t("cr_history_ph")}
+                  value={cropHistory}
+                  onChange={(e) => setCropHistory(e.target.value)}
+                  className="rounded-xl"
+                  maxLength={200}
+                />
+                <MicButton onTranscript={(text) => setCropHistory(text)} />
+              </div>
               <p className="text-xs text-muted-foreground">{t("cr_history_help")}</p>
             </div>
 
