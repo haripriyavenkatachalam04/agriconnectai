@@ -10,10 +10,12 @@ import PriceForecast from "./pages/PriceForecast";
 import CropRecommend from "./pages/CropRecommend";
 import NotFound from "./pages/NotFound";
 import { LanguageProvider } from "./i18n/LanguageContext";
+import { ThemeProvider } from "./components/ThemeProvider";
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <ThemeProvider>
     <LanguageProvider>
       <TooltipProvider>
         <Toaster />
@@ -31,6 +33,7 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Leaf, BarChart3, Camera, Menu, X, Home, Sprout, Languages } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
@@ -61,6 +62,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             {/* Language toggle */}
             <Button
               variant="outline"

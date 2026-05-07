@@ -139,6 +139,8 @@ export const translations = {
     cr_empty_desc:
       "Fill in your farm details and our AI will analyze soil compatibility, weather patterns, and crop rotation to suggest the best crops for you.",
     cr_err_generic: "Something went wrong. Please try again.",
+    cr_voice_hint: "Tap mic and say e.g. 'black soil, rainy, previous crop paddy'",
+    cr_voice_filled: "Form filled from voice input",
   },
   ta: {
     // Brand & nav
@@ -282,6 +284,8 @@ export const translations = {
     cr_empty_desc:
       "உங்கள் பண்ணை விவரங்களை நிரப்பவும் — AI மண் பொருத்தம், காலநிலை, பயிர் சுழற்சியை பகுப்பாய்வு செய்து சிறந்த பயிர்களை பரிந்துரைக்கும்.",
     cr_err_generic: "ஏதோ தவறு. மீண்டும் முயற்சிக்கவும்.",
+    cr_voice_hint: "மைக்கைத் தட்டி சொல்லுங்கள்: 'கருப்பு மண், மழை, முந்தைய பயிர் நெல்'",
+    cr_voice_filled: "குரல் மூலம் படிவம் நிரப்பப்பட்டது",
   },
 } as const;
 
