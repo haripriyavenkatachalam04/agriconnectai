@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useNotifications } from "@/hooks/useNotifications";
 
 interface Stage {
   key: string;
@@ -207,24 +208,48 @@ export function SmartCropCalendar({ crop }: { crop: string }) {
   const profile = useMemo(() => getProfile(crop), [crop]);
   const [sowingDate, setSowingDate] = useState<Date>(new Date());
   const [reminders, setReminders] = useState<Set<string>>(new Set());
+  const { permission, request, schedule, notify } = useNotifications();
 
   const isTa = lang === "ta";
   const harvestDate = addDays(sowingDate, profile.durationDays);
 
-  const toggleReminder = (key: string, label: string) => {
-    setReminders((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) {
+  const toggleReminder = async (key: string, label: string, when: Date) => {
+    if (reminders.has(key)) {
+      setReminders((prev) => {
+        const next = new Set(prev);
         next.delete(key);
-        toast.info(isTa ? "நினைவூட்டல் நீக்கப்பட்டது" : "Reminder removed");
-      } else {
-        next.add(key);
-        toast.success(
-          isTa ? `🔔 நினைவூட்டல் அமைக்கப்பட்டது: ${label}` : `🔔 Reminder set: ${label}`,
-        );
-      }
-      return next;
+        return next;
+      });
+      toast.info(isTa ? "நினைவூட்டல் நீக்கப்பட்டது" : "Reminder removed");
+      return;
+    }
+
+    let perm = permission;
+    if (perm === "default") perm = (await request()) as typeof permission;
+
+    if (perm !== "granted") {
+      toast.error(
+        isTa
+          ? "அறிவிப்பு அனுமதி தேவை. உலாவி அமைப்புகளில் இயக்கவும்."
+          : "Notifications permission needed. Enable it in your browser.",
+      );
+      return;
+    }
+
+    setReminders((prev) => new Set(prev).add(key));
+    schedule(when, isTa ? `🌾 AgriConnect: ${label}` : `🌾 AgriConnect: ${label}`, {
+      body: isTa
+        ? `இன்று "${label}" செய்ய வேண்டிய நேரம்.`
+        : `It's time for "${label}" on your crop.`,
+      tag: key,
     });
+    notify(isTa ? "🔔 நினைவூட்டல் அமைக்கப்பட்டது" : "🔔 Reminder scheduled", {
+      body: `${label} · ${fmt(when, lang)}`,
+      tag: `${key}-confirm`,
+    });
+    toast.success(
+      isTa ? `நினைவூட்டல் அமைக்கப்பட்டது: ${fmt(when, lang)}` : `Reminder set for ${fmt(when, lang)}`,
+    );
   };
 
   return (
@@ -331,7 +356,7 @@ export function SmartCropCalendar({ crop }: { crop: string }) {
                       size="sm"
                       variant={hasReminder ? "default" : "outline"}
                       className="rounded-full h-8 text-xs"
-                      onClick={() => toggleReminder(reminderKey, title)}
+                      onClick={() => toggleReminder(reminderKey, title, start)}
                     >
                       {hasReminder ? (
                         <BellRing className="h-3.5 w-3.5 mr-1" />
