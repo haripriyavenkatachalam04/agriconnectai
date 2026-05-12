@@ -29,7 +29,18 @@ const weatherOptions: { value: string; key: any }[] = [
   { value: "Monsoon Season", key: "weather_monsoon" },
   { value: "Post-Monsoon", key: "weather_post_monsoon" },
 ];
-const regions = ["Thanjavur", "Erode", "Coimbatore", "Dindigul", "Namakkal", "Tiruvarur", "Madurai", "Salem", "Trichy", "Other"];
+const regions: { value: string; key: any }[] = [
+  { value: "Thanjavur", key: "mandi_thanjavur" },
+  { value: "Erode", key: "mandi_erode" },
+  { value: "Coimbatore", key: "mandi_coimbatore" },
+  { value: "Dindigul", key: "mandi_dindigul" },
+  { value: "Namakkal", key: "mandi_namakkal" },
+  { value: "Tiruvarur", key: "mandi_tiruvarur" },
+  { value: "Madurai", key: "mandi_madurai" },
+  { value: "Salem", key: "mandi_salem" },
+  { value: "Trichy", key: "mandi_trichy" },
+  { value: "Other", key: "mandi_other" },
+];
 
 interface Recommendation {
   crop: string;
@@ -46,7 +57,7 @@ interface AIResult {
 }
 
 export default function CropRecommend() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [soilType, setSoilType] = useState("");
   const [weather, setWeather] = useState("");
   const [cropHistory, setCropHistory] = useState("");
@@ -66,7 +77,7 @@ export default function CropRecommend() {
 
     try {
       const { data, error } = await supabase.functions.invoke("crop-recommend", {
-        body: { soilType, weather, cropHistory: cropHistory.trim(), region },
+        body: { soilType, weather, cropHistory: cropHistory.trim(), region, language: lang },
       });
 
       if (error) {
