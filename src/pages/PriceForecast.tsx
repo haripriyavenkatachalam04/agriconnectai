@@ -227,7 +227,7 @@ export default function PriceForecast() {
                 labelFormatter={(l) => fmtDate(l as string)}
                 formatter={(value: number | number[], name: string) => {
                   if (Array.isArray(value)) return [`₹${value[0]} – ₹${value[1]}`, t("pf_confidence")];
-                  return [`₹${value}/quintal`, name];
+                  return [`₹${value}${t("pf_per_quintal_short")}`, name];
                 }}
               />
               {/* Confidence band */}
