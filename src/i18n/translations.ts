@@ -141,6 +141,69 @@ export const translations = {
     cr_err_generic: "Something went wrong. Please try again.",
     cr_voice_hint: "Tap mic and say e.g. 'black soil, rainy, previous crop paddy'",
     cr_voice_filled: "Form filled from voice input",
+
+    // 404
+    nf_title: "Page Not Found",
+    nf_desc: "The page you are looking for doesn't exist.",
+    nf_home: "Return to Home",
+
+    // Toasts (shared)
+    toast_forecast_failed: "Forecast failed",
+    toast_try_again: "Please try again.",
+    pf_per_quintal_short: "/quintal",
+
+    // Soil types
+    soil_alluvial: "Alluvial",
+    soil_red: "Red Soil",
+    soil_black: "Black Cotton",
+    soil_laterite: "Laterite",
+    soil_sandy: "Sandy",
+    soil_clay: "Clay",
+    soil_loamy: "Loamy",
+    soil_saline: "Saline",
+
+    // Weather options
+    weather_hot_dry: "Hot & Dry",
+    weather_hot_humid: "Hot & Humid",
+    weather_warm_mod: "Warm & Moderate",
+    weather_cool_wet: "Cool & Wet",
+    weather_monsoon: "Monsoon Season",
+    weather_post_monsoon: "Post-Monsoon",
+
+    // Severity
+    sev_healthy: "Healthy",
+    sev_mild: "Mild",
+    sev_moderate: "Moderate",
+    sev_severe: "Severe",
+
+    // Model status
+    ms_title: "Forecast Model",
+    ms_loading: "Loading",
+    ms_lstm_active: "LSTM active",
+    ms_fallback: "Holt-Winters fallback (no LSTM uploaded)",
+    ms_architecture: "Architecture",
+    ms_hidden: "Hidden size",
+    ms_sequence: "Sequence",
+    ms_mape: "Validation MAPE",
+    ms_train_samples: "Train samples",
+    ms_crops: "Crops covered",
+    ms_mandis: "Mandis covered",
+    ms_trained: "Trained",
+    ms_days: "days",
+    ms_fallback_desc:
+      "Forecasts currently come from a Holt-Winters seasonal model. Train and upload an LSTM via the Colab notebook to switch to learned predictions.",
+    ms_upload_csv: "Upload training CSV",
+    ms_open_colab: "Open Colab to train",
+    ms_download_json: "Download model JSON",
+    ms_refresh: "Refresh",
+    ms_csv_only_title: "CSV only",
+    ms_csv_only_desc: "Please upload a .csv file.",
+    ms_too_large_title: "File too large",
+    ms_too_large_desc: "Max 20 MB.",
+    ms_uploaded_title: "CSV uploaded",
+    ms_upload_failed: "Upload failed",
+    ms_csv_format_hint:
+      "CSV format: date, crop, mandi, price. After uploading, open the Colab notebook, point it at this dataset, train, and the model auto-registers. Cold-start picks it up within ~1 minute.",
   },
   ta: {
     // Brand & nav
