@@ -204,6 +204,50 @@ export const translations = {
     ms_upload_failed: "Upload failed",
     ms_csv_format_hint:
       "CSV format: date, crop, mandi, price. After uploading, open the Colab notebook, point it at this dataset, train, and the model auto-registers. Cold-start picks it up within ~1 minute.",
+
+    // Crops
+    crop_paddy: "Paddy",
+    crop_sugarcane: "Sugarcane",
+    crop_tomato: "Tomato",
+    crop_onion: "Onion",
+    crop_cotton: "Cotton",
+    crop_groundnut: "Groundnut",
+    crop_maize: "Maize",
+    crop_turmeric: "Turmeric",
+
+    // Mandis / Regions
+    mandi_coimbatore: "Coimbatore",
+    mandi_madurai: "Madurai",
+    mandi_chennai: "Chennai-Koyambedu",
+    mandi_erode: "Erode",
+    mandi_salem: "Salem",
+    mandi_thanjavur: "Thanjavur",
+    mandi_trichy: "Trichy",
+    mandi_dindigul: "Dindigul",
+    mandi_namakkal: "Namakkal",
+    mandi_tiruvarur: "Tiruvarur",
+    mandi_other: "Other",
+
+    // Weather widget
+    ww_your_location: "Your location",
+    ww_loading: "Loading...",
+    ww_fetching: "Fetching weather data...",
+    ww_unavailable: "Weather data unavailable",
+    ww_humidity: "Humidity",
+    ww_wind: "Wind",
+
+    // Calendar (SmartCropCalendar)
+    sc_title: "Smart Crop Calendar",
+    sc_season: "Season:",
+    sc_sowing_date: "Sowing date:",
+    sc_harvest: "Harvest:",
+    sc_day: "Day",
+    sc_reminder_set: "Reminder on",
+    sc_remind_me: "Remind me",
+    sc_reminder_removed: "Reminder removed",
+    sc_perm_needed: "Notifications permission needed. Enable it in your browser.",
+    sc_reminder_scheduled_title: "🔔 Reminder scheduled",
+    sc_note: "Note: Calendar is general guidance tuned for Tamil Nadu. Consult your local agri-officer for field-specific advice.",
   },
   ta: {
     // Brand & nav
