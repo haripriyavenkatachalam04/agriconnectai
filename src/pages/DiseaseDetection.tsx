@@ -316,9 +316,16 @@ export default function DiseaseDetection() {
                   {t("dd_empty")}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2 justify-center">
-                  {["Paddy", "Sugarcane", "Tomato", "Cotton", "Groundnut", "Banana"].map((crop) => (
-                    <span key={crop} className="rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
-                      {crop}
+                  {[
+                    { en: "Paddy", ta: "நெல்" },
+                    { en: "Sugarcane", ta: "கரும்பு" },
+                    { en: "Tomato", ta: "தக்காளி" },
+                    { en: "Cotton", ta: "பருத்தி" },
+                    { en: "Groundnut", ta: "நிலக்கடலை" },
+                    { en: "Banana", ta: "வாழை" },
+                  ].map((crop) => (
+                    <span key={crop.en} className="rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
+                      {lang === "ta" ? crop.ta : crop.en}
                     </span>
                   ))}
                 </div>
