@@ -215,7 +215,7 @@ export default function CropRecommend() {
                 </SelectTrigger>
                 <SelectContent>
                   {regions.map((r) => (
-                    <SelectItem key={r} value={r}>{r}</SelectItem>
+                    <SelectItem key={r.value} value={r.value}>{t(r.key)}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
