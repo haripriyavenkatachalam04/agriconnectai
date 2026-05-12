@@ -155,7 +155,7 @@ export default function CropRecommend() {
                 </SelectTrigger>
                 <SelectContent>
                   {soilTypes.map((s) => (
-                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                    <SelectItem key={s.value} value={s.value}>{t(s.key)}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -171,7 +171,7 @@ export default function CropRecommend() {
                 </SelectTrigger>
                 <SelectContent>
                   {weatherOptions.map((w) => (
-                    <SelectItem key={w} value={w}>{w}</SelectItem>
+                    <SelectItem key={w.value} value={w.value}>{t(w.key)}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
