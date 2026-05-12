@@ -456,6 +456,50 @@ export const translations = {
     ms_upload_failed: "பதிவேற்றம் தோல்வியடைந்தது",
     ms_csv_format_hint:
       "CSV வடிவம்: date, crop, mandi, price. பதிவேற்றிய பின் Colab திறந்து இந்த தரவில் பயிற்சி செய்க — மாதிரி தானாக பதிவாகும். ~1 நிமிடத்தில் பயன்பாட்டிற்கு வரும்.",
+
+    // Crops
+    crop_paddy: "நெல்",
+    crop_sugarcane: "கரும்பு",
+    crop_tomato: "தக்காளி",
+    crop_onion: "வெங்காயம்",
+    crop_cotton: "பருத்தி",
+    crop_groundnut: "நிலக்கடலை",
+    crop_maize: "மக்காச்சோளம்",
+    crop_turmeric: "மஞ்சள்",
+
+    // Mandis / Regions
+    mandi_coimbatore: "கோயம்புத்தூர்",
+    mandi_madurai: "மதுரை",
+    mandi_chennai: "சென்னை-கோயம்பேடு",
+    mandi_erode: "ஈரோடு",
+    mandi_salem: "சேலம்",
+    mandi_thanjavur: "தஞ்சாவூர்",
+    mandi_trichy: "திருச்சி",
+    mandi_dindigul: "திண்டுக்கல்",
+    mandi_namakkal: "நாமக்கல்",
+    mandi_tiruvarur: "திருவாரூர்",
+    mandi_other: "மற்றவை",
+
+    // Weather widget
+    ww_your_location: "உங்கள் இடம்",
+    ww_loading: "ஏற்றுகிறது...",
+    ww_fetching: "வானிலை தரவு பெறப்படுகிறது...",
+    ww_unavailable: "வானிலை தரவு கிடைக்கவில்லை",
+    ww_humidity: "ஈரப்பதம்",
+    ww_wind: "காற்று",
+
+    // Calendar
+    sc_title: "ஸ்மார்ட் பயிர் காலண்டர்",
+    sc_season: "பருவம்:",
+    sc_sowing_date: "விதைப்பு நாள்:",
+    sc_harvest: "அறுவடை:",
+    sc_day: "நாள்",
+    sc_reminder_set: "அமைக்கப்பட்டது",
+    sc_remind_me: "நினைவூட்டு",
+    sc_reminder_removed: "நினைவூட்டல் நீக்கப்பட்டது",
+    sc_perm_needed: "அறிவிப்பு அனுமதி தேவை. உலாவி அமைப்புகளில் இயக்கவும்.",
+    sc_reminder_scheduled_title: "🔔 நினைவூட்டல் அமைக்கப்பட்டது",
+    sc_note: "குறிப்பு: காலண்டர் தமிழ்நாடு வேளாண் சூழலுக்கு ஏற்ற பொதுவான வழிகாட்டி. உள்ளூர் வேளாண் அலுவலரை அணுகவும்.",
   },
 } as const;
 
