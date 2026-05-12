@@ -151,8 +151,8 @@ export default function PriceForecast() {
             </SelectTrigger>
             <SelectContent>
               {CROPS.map((c) => (
-                <SelectItem key={c} value={c}>
-                  {c}
+                <SelectItem key={c.value} value={c.value}>
+                  {t(c.key)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -166,8 +166,8 @@ export default function PriceForecast() {
             </SelectTrigger>
             <SelectContent>
               {MANDIS.map((m) => (
-                <SelectItem key={m} value={m}>
-                  {m}
+                <SelectItem key={m.value} value={m.value}>
+                  {t(m.key)}
                 </SelectItem>
               ))}
             </SelectContent>
