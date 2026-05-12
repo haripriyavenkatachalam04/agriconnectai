@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 type ActiveModel = {
   id: string;
@@ -24,6 +25,7 @@ type ActiveModel = {
 const MAX_CSV_BYTES = 20 * 1024 * 1024; // 20 MB
 
 export function ModelStatus() {
+  const { t } = useLanguage();
   const [model, setModel] = useState<ActiveModel | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -47,41 +49,39 @@ export function ModelStatus() {
 
   const onCsvSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    e.target.value = ""; // reset input
+    e.target.value = "";
     if (!file) return;
     if (!/\.csv$/i.test(file.name)) {
-      toast({ title: "CSV only", description: "Please upload a .csv file.", variant: "destructive" });
+      toast({ title: t("ms_csv_only_title"), description: t("ms_csv_only_desc"), variant: "destructive" });
       return;
     }
     if (file.size > MAX_CSV_BYTES) {
-      toast({ title: "File too large", description: "Max 20 MB.", variant: "destructive" });
+      toast({ title: t("ms_too_large_title"), description: t("ms_too_large_desc"), variant: "destructive" });
       return;
     }
 
     setUploading(true);
     try {
-      // Get a signed upload URL
       const { data: signed, error: signErr } = await supabase.functions.invoke("upload-training-data", {
         body: { filename: file.name, contentType: "text/csv" },
       });
       if (signErr) throw signErr;
       const { uploadPath, token } = signed as { uploadPath: string; token: string };
 
-      // Upload directly to Storage using the token
       const { error: upErr } = await supabase.storage
         .from("training-data")
         .uploadToSignedUrl(uploadPath, token, file, { contentType: "text/csv" });
       if (upErr) throw upErr;
 
       toast({
-        title: "CSV uploaded",
-        description: `Saved to training-data/${uploadPath}. Use it in the Colab notebook.`,
+        title: t("ms_uploaded_title"),
+        description: `training-data/${uploadPath}`,
       });
     } catch (e) {
       console.error(e);
       toast({
-        title: "Upload failed",
-        description: e instanceof Error ? e.message : "Unknown error",
+        title: t("ms_upload_failed"),
+        description: e instanceof Error ? e.message : "—",
         variant: "destructive",
       });
     } finally {
@@ -100,39 +100,39 @@ export function ModelStatus() {
         <Brain className="h-6 w-6 text-primary shrink-0 mt-1" />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="text-lg font-display font-semibold">Forecast Model</h3>
+            <h3 className="text-lg font-display font-semibold">{t("ms_title")}</h3>
             {loading ? (
               <Badge variant="secondary" className="gap-1">
                 <Loader2 className="h-3 w-3 animate-spin" />
-                Loading
+                {t("ms_loading")}
               </Badge>
             ) : model ? (
               <Badge className="bg-primary/15 text-primary border border-primary/30 gap-1">
                 <CheckCircle2 className="h-3 w-3" />
-                LSTM active · {model.version}
+                {t("ms_lstm_active")} · {model.version}
               </Badge>
             ) : (
               <Badge variant="secondary" className="gap-1 border border-secondary/40">
                 <AlertCircle className="h-3 w-3" />
-                Holt-Winters fallback (no LSTM uploaded)
+                {t("ms_fallback")}
               </Badge>
             )}
           </div>
 
           {model ? (
             <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-              <Stat label="Architecture" value={model.architecture} />
-              <Stat label="Hidden size" value={String(model.hidden_size)} />
-              <Stat label="Sequence" value={`${model.sequence_length} days`} />
+              <Stat label={t("ms_architecture")} value={model.architecture} />
+              <Stat label={t("ms_hidden")} value={String(model.hidden_size)} />
+              <Stat label={t("ms_sequence")} value={`${model.sequence_length} ${t("ms_days")}`} />
               <Stat
-                label="Validation MAPE"
+                label={t("ms_mape")}
                 value={model.val_mape !== null ? `${Number(model.val_mape).toFixed(2)}%` : "—"}
               />
-              <Stat label="Train samples" value={model.train_samples?.toLocaleString() ?? "—"} />
-              <Stat label="Crops covered" value={String(model.crops.length)} />
-              <Stat label="Mandis covered" value={String(model.mandis.length)} />
+              <Stat label={t("ms_train_samples")} value={model.train_samples?.toLocaleString() ?? "—"} />
+              <Stat label={t("ms_crops")} value={String(model.crops.length)} />
+              <Stat label={t("ms_mandis")} value={String(model.mandis.length)} />
               <Stat
-                label="Trained"
+                label={t("ms_trained")}
                 value={new Date(model.created_at).toLocaleDateString()}
               />
               {model.notes && (
@@ -142,10 +142,7 @@ export function ModelStatus() {
               )}
             </div>
           ) : (
-            <p className="mt-2 text-sm text-muted-foreground">
-              Forecasts currently come from a Holt-Winters seasonal model. Train and upload an LSTM via the Colab notebook
-              to switch to learned predictions.
-            </p>
+            <p className="mt-2 text-sm text-muted-foreground">{t("ms_fallback_desc")}</p>
           )}
 
           <div className="mt-5 flex flex-wrap gap-3">
@@ -164,7 +161,7 @@ export function ModelStatus() {
                   ) : (
                     <FileSpreadsheet className="h-4 w-4 mr-2" />
                   )}
-                  Upload training CSV
+                  {t("ms_upload_csv")}
                 </span>
               </Button>
             </label>
@@ -175,27 +172,23 @@ export function ModelStatus() {
                 rel="noopener noreferrer"
               >
                 <Upload className="h-4 w-4 mr-2" />
-                Open Colab to train
+                {t("ms_open_colab")}
               </a>
             </Button>
             {model && (
               <Button asChild variant="ghost" size="sm">
                 <a href={model.public_url} target="_blank" rel="noopener noreferrer">
                   <Download className="h-4 w-4 mr-2" />
-                  Download model JSON
+                  {t("ms_download_json")}
                 </a>
               </Button>
             )}
             <Button variant="ghost" size="sm" onClick={fetchModel} disabled={loading}>
-              Refresh
+              {t("ms_refresh")}
             </Button>
           </div>
 
-          <p className="mt-3 text-xs text-muted-foreground">
-            CSV format: <code className="text-xs">date, crop, mandi, price</code>. After uploading, open the
-            Colab notebook (provided in <code className="text-xs">/mnt/documents</code>), point it at this dataset,
-            train, and the model auto-registers. Cold-start picks it up within ~1 minute.
-          </p>
+          <p className="mt-3 text-xs text-muted-foreground">{t("ms_csv_format_hint")}</p>
         </div>
       </div>
     </motion.div>
