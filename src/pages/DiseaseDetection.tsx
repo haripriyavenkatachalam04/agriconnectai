@@ -125,7 +125,7 @@ export default function DiseaseDetection() {
     }
   };
 
-  const isHealthy = result?.diseases?.every((d) => d.disease === "Healthy");
+  const isHealthy = result?.diseases?.every((d) => d.severity === "Healthy");
   const sevLabel = (s: string) => {
     const map: Record<string, any> = { Healthy: "sev_healthy", Mild: "sev_mild", Moderate: "sev_moderate", Severe: "sev_severe" };
     return map[s] ? t(map[s]) : s;
@@ -218,13 +218,13 @@ export default function DiseaseDetection() {
                     className="glass-card rounded-2xl p-6"
                   >
                     <div className="flex items-center gap-2 mb-3">
-                      {d.disease === "Healthy" ? (
+                      {d.severity === "Healthy" ? (
                         <ShieldCheck className="h-5 w-5 text-green-600" />
                       ) : (
                         <AlertTriangle className="h-5 w-5 text-destructive" />
                       )}
                       <span className="font-semibold">
-                        {d.disease === "Healthy" ? t("dd_healthy") : t("dd_disease_detected")}
+                        {d.severity === "Healthy" ? t("dd_healthy") : t("dd_disease_detected")}
                       </span>
                     </div>
 
