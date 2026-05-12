@@ -76,7 +76,7 @@ export default function PriceForecast() {
         setData(res as ApiResponse);
       } catch (e) {
         console.error(e);
-        toast({ title: "Forecast failed", description: "Please try again.", variant: "destructive" });
+        toast({ title: t("toast_forecast_failed"), description: t("toast_try_again"), variant: "destructive" });
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -330,7 +330,7 @@ export default function PriceForecast() {
                     }`}
                   >
                     {data.insight.expected_gain_per_quintal >= 0 ? "+" : ""}₹
-                    {Math.round(data.insight.expected_gain_per_quintal).toLocaleString()}/quintal
+                    {Math.round(data.insight.expected_gain_per_quintal).toLocaleString()}{t("pf_per_quintal_short")}
                   </span>
                 </span>
                 <span>

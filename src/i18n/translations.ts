@@ -141,6 +141,69 @@ export const translations = {
     cr_err_generic: "Something went wrong. Please try again.",
     cr_voice_hint: "Tap mic and say e.g. 'black soil, rainy, previous crop paddy'",
     cr_voice_filled: "Form filled from voice input",
+
+    // 404
+    nf_title: "Page Not Found",
+    nf_desc: "The page you are looking for doesn't exist.",
+    nf_home: "Return to Home",
+
+    // Toasts (shared)
+    toast_forecast_failed: "Forecast failed",
+    toast_try_again: "Please try again.",
+    pf_per_quintal_short: "/quintal",
+
+    // Soil types
+    soil_alluvial: "Alluvial",
+    soil_red: "Red Soil",
+    soil_black: "Black Cotton",
+    soil_laterite: "Laterite",
+    soil_sandy: "Sandy",
+    soil_clay: "Clay",
+    soil_loamy: "Loamy",
+    soil_saline: "Saline",
+
+    // Weather options
+    weather_hot_dry: "Hot & Dry",
+    weather_hot_humid: "Hot & Humid",
+    weather_warm_mod: "Warm & Moderate",
+    weather_cool_wet: "Cool & Wet",
+    weather_monsoon: "Monsoon Season",
+    weather_post_monsoon: "Post-Monsoon",
+
+    // Severity
+    sev_healthy: "Healthy",
+    sev_mild: "Mild",
+    sev_moderate: "Moderate",
+    sev_severe: "Severe",
+
+    // Model status
+    ms_title: "Forecast Model",
+    ms_loading: "Loading",
+    ms_lstm_active: "LSTM active",
+    ms_fallback: "Holt-Winters fallback (no LSTM uploaded)",
+    ms_architecture: "Architecture",
+    ms_hidden: "Hidden size",
+    ms_sequence: "Sequence",
+    ms_mape: "Validation MAPE",
+    ms_train_samples: "Train samples",
+    ms_crops: "Crops covered",
+    ms_mandis: "Mandis covered",
+    ms_trained: "Trained",
+    ms_days: "days",
+    ms_fallback_desc:
+      "Forecasts currently come from a Holt-Winters seasonal model. Train and upload an LSTM via the Colab notebook to switch to learned predictions.",
+    ms_upload_csv: "Upload training CSV",
+    ms_open_colab: "Open Colab to train",
+    ms_download_json: "Download model JSON",
+    ms_refresh: "Refresh",
+    ms_csv_only_title: "CSV only",
+    ms_csv_only_desc: "Please upload a .csv file.",
+    ms_too_large_title: "File too large",
+    ms_too_large_desc: "Max 20 MB.",
+    ms_uploaded_title: "CSV uploaded",
+    ms_upload_failed: "Upload failed",
+    ms_csv_format_hint:
+      "CSV format: date, crop, mandi, price. After uploading, open the Colab notebook, point it at this dataset, train, and the model auto-registers. Cold-start picks it up within ~1 minute.",
   },
   ta: {
     // Brand & nav
@@ -286,6 +349,69 @@ export const translations = {
     cr_err_generic: "ஏதோ தவறு. மீண்டும் முயற்சிக்கவும்.",
     cr_voice_hint: "மைக்கைத் தட்டி சொல்லுங்கள்: 'கருப்பு மண், மழை, முந்தைய பயிர் நெல்'",
     cr_voice_filled: "குரல் மூலம் படிவம் நிரப்பப்பட்டது",
+
+    // 404
+    nf_title: "பக்கம் கிடைக்கவில்லை",
+    nf_desc: "நீங்கள் தேடும் பக்கம் இல்லை.",
+    nf_home: "முகப்புக்கு திரும்பு",
+
+    // Toasts
+    toast_forecast_failed: "கணிப்பு தோல்வியடைந்தது",
+    toast_try_again: "மீண்டும் முயற்சிக்கவும்.",
+    pf_per_quintal_short: "/குவிண்டல்",
+
+    // Soil types
+    soil_alluvial: "வண்டல் மண்",
+    soil_red: "செம்மண்",
+    soil_black: "கருப்பு பஞ்சை மண்",
+    soil_laterite: "செங்கல் மண்",
+    soil_sandy: "மணல் மண்",
+    soil_clay: "களி மண்",
+    soil_loamy: "வண்டல் சேறு",
+    soil_saline: "உப்பு மண்",
+
+    // Weather
+    weather_hot_dry: "வெப்பம் & வறட்சி",
+    weather_hot_humid: "வெப்பம் & ஈரப்பதம்",
+    weather_warm_mod: "மிதமான வெப்பம்",
+    weather_cool_wet: "குளிர் & ஈரம்",
+    weather_monsoon: "பருவமழை காலம்",
+    weather_post_monsoon: "மழைக்கு பின்",
+
+    // Severity
+    sev_healthy: "ஆரோக்கியம்",
+    sev_mild: "சிறிது",
+    sev_moderate: "மிதமானது",
+    sev_severe: "கடுமையானது",
+
+    // Model status
+    ms_title: "கணிப்பு மாதிரி",
+    ms_loading: "ஏற்றுகிறது",
+    ms_lstm_active: "LSTM செயலில்",
+    ms_fallback: "Holt-Winters மாற்று (LSTM பதிவேற்றப்படவில்லை)",
+    ms_architecture: "கட்டமைப்பு",
+    ms_hidden: "மறை அளவு",
+    ms_sequence: "வரிசை",
+    ms_mape: "சரிபார்ப்பு MAPE",
+    ms_train_samples: "பயிற்சி மாதிரிகள்",
+    ms_crops: "பயிர்கள்",
+    ms_mandis: "மண்டிகள்",
+    ms_trained: "பயிற்சி தேதி",
+    ms_days: "நாட்கள்",
+    ms_fallback_desc:
+      "கணிப்புகள் தற்போது Holt-Winters பருவகால மாதிரியில் இருந்து வருகிறது. கற்ற கணிப்புகளுக்கு Colab மூலம் LSTM-ஐ பயிற்சி செய்து பதிவேற்றவும்.",
+    ms_upload_csv: "பயிற்சி CSV பதிவேற்று",
+    ms_open_colab: "பயிற்சிக்கு Colab திற",
+    ms_download_json: "மாதிரி JSON பதிவிறக்கு",
+    ms_refresh: "புதுப்பி",
+    ms_csv_only_title: "CSV மட்டும்",
+    ms_csv_only_desc: ".csv கோப்பை பதிவேற்றவும்.",
+    ms_too_large_title: "கோப்பு மிகப் பெரியது",
+    ms_too_large_desc: "அதிகபட்சம் 20 MB.",
+    ms_uploaded_title: "CSV பதிவேற்றப்பட்டது",
+    ms_upload_failed: "பதிவேற்றம் தோல்வியடைந்தது",
+    ms_csv_format_hint:
+      "CSV வடிவம்: date, crop, mandi, price. பதிவேற்றிய பின் Colab திறந்து இந்த தரவில் பயிற்சி செய்க — மாதிரி தானாக பதிவாகும். ~1 நிமிடத்தில் பயன்பாட்டிற்கு வரும்.",
   },
 } as const;
 

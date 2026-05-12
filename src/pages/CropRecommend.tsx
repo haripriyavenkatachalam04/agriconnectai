@@ -11,8 +11,24 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { MicButton } from "@/components/MicButton";
 import { SmartCropCalendar } from "@/components/SmartCropCalendar";
 
-const soilTypes = ["Alluvial", "Red Soil", "Black Cotton", "Laterite", "Sandy", "Clay", "Loamy", "Saline"];
-const weatherOptions = ["Hot & Dry", "Hot & Humid", "Warm & Moderate", "Cool & Wet", "Monsoon Season", "Post-Monsoon"];
+const soilTypes: { value: string; key: any }[] = [
+  { value: "Alluvial", key: "soil_alluvial" },
+  { value: "Red Soil", key: "soil_red" },
+  { value: "Black Cotton", key: "soil_black" },
+  { value: "Laterite", key: "soil_laterite" },
+  { value: "Sandy", key: "soil_sandy" },
+  { value: "Clay", key: "soil_clay" },
+  { value: "Loamy", key: "soil_loamy" },
+  { value: "Saline", key: "soil_saline" },
+];
+const weatherOptions: { value: string; key: any }[] = [
+  { value: "Hot & Dry", key: "weather_hot_dry" },
+  { value: "Hot & Humid", key: "weather_hot_humid" },
+  { value: "Warm & Moderate", key: "weather_warm_mod" },
+  { value: "Cool & Wet", key: "weather_cool_wet" },
+  { value: "Monsoon Season", key: "weather_monsoon" },
+  { value: "Post-Monsoon", key: "weather_post_monsoon" },
+];
 const regions = ["Thanjavur", "Erode", "Coimbatore", "Dindigul", "Namakkal", "Tiruvarur", "Madurai", "Salem", "Trichy", "Other"];
 
 interface Recommendation {
@@ -139,7 +155,7 @@ export default function CropRecommend() {
                 </SelectTrigger>
                 <SelectContent>
                   {soilTypes.map((s) => (
-                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                    <SelectItem key={s.value} value={s.value}>{t(s.key)}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -155,7 +171,7 @@ export default function CropRecommend() {
                 </SelectTrigger>
                 <SelectContent>
                   {weatherOptions.map((w) => (
-                    <SelectItem key={w} value={w}>{w}</SelectItem>
+                    <SelectItem key={w.value} value={w.value}>{t(w.key)}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
