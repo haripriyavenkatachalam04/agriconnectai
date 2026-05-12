@@ -56,7 +56,7 @@ const weatherCodeText = (code: number, lang: string) => {
 };
 
 export function WeatherWidget() {
-  const { lang } = useLanguage();
+  const { lang, t } = useLanguage();
   const [weather, setWeather] = useState<Weather | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -84,14 +84,15 @@ export function WeatherWidget() {
       }
     };
 
+    const fallbackCity = lang === "ta" ? "கோயம்புத்தூர்" : "Coimbatore";
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude, lang === "ta" ? "உங்கள் இடம்" : "Your location"),
-        () => fetchWeather(11.0168, 76.9558, "Coimbatore"), // fallback: Coimbatore, TN
+        (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude, t("ww_your_location")),
+        () => fetchWeather(11.0168, 76.9558, fallbackCity),
         { timeout: 5000 }
       );
     } else {
-      fetchWeather(11.0168, 76.9558, "Coimbatore");
+      fetchWeather(11.0168, 76.9558, fallbackCity);
     }
   }, [lang]);
 
@@ -108,7 +109,7 @@ export function WeatherWidget() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <MapPin className="h-4 w-4" />
-            <span>{weather?.city ?? (lang === "ta" ? "ஏற்றுகிறது..." : "Loading...")}</span>
+            <span>{weather?.city ?? t("ww_loading")}</span>
           </div>
           <Icon className="h-8 w-8 text-primary" />
         </div>
@@ -116,11 +117,11 @@ export function WeatherWidget() {
         {loading ? (
           <div className="mt-6 flex items-center gap-3 text-muted-foreground">
             <Loader2 className="h-5 w-5 animate-spin" />
-            <span>{lang === "ta" ? "வானிலை தரவு பெறப்படுகிறது..." : "Fetching weather data..."}</span>
+            <span>{t("ww_fetching")}</span>
           </div>
         ) : error || !weather ? (
           <p className="mt-6 text-sm text-muted-foreground">
-            {lang === "ta" ? "வானிலை தரவு கிடைக்கவில்லை" : "Weather data unavailable"}
+            {t("ww_unavailable")}
           </p>
         ) : (
           <>
@@ -135,18 +136,14 @@ export function WeatherWidget() {
               <div className="flex items-center gap-2 rounded-lg bg-accent/40 px-3 py-2">
                 <Droplets className="h-4 w-4 text-agri-sky" />
                 <div>
-                  <p className="text-xs text-muted-foreground">
-                    {lang === "ta" ? "ஈரப்பதம்" : "Humidity"}
-                  </p>
+                  <p className="text-xs text-muted-foreground">{t("ww_humidity")}</p>
                   <p className="text-sm font-semibold">{weather.humidity}%</p>
                 </div>
               </div>
               <div className="flex items-center gap-2 rounded-lg bg-accent/40 px-3 py-2">
                 <Wind className="h-4 w-4 text-primary" />
                 <div>
-                  <p className="text-xs text-muted-foreground">
-                    {lang === "ta" ? "காற்று" : "Wind"}
-                  </p>
+                  <p className="text-xs text-muted-foreground">{t("ww_wind")}</p>
                   <p className="text-sm font-semibold">{weather.windSpeed} km/h</p>
                 </div>
               </div>

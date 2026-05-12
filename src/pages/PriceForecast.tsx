@@ -18,17 +18,26 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { ModelStatus } from "@/components/ModelStatus";
 
-const CROPS = ["Paddy", "Sugarcane", "Tomato", "Onion", "Cotton", "Groundnut", "Maize", "Turmeric"] as const;
-const MANDIS = [
-  "Coimbatore",
-  "Madurai",
-  "Chennai-Koyambedu",
-  "Erode",
-  "Salem",
-  "Thanjavur",
-  "Trichy",
-  "Dindigul",
-] as const;
+const CROPS: { value: string; key: any }[] = [
+  { value: "Paddy", key: "crop_paddy" },
+  { value: "Sugarcane", key: "crop_sugarcane" },
+  { value: "Tomato", key: "crop_tomato" },
+  { value: "Onion", key: "crop_onion" },
+  { value: "Cotton", key: "crop_cotton" },
+  { value: "Groundnut", key: "crop_groundnut" },
+  { value: "Maize", key: "crop_maize" },
+  { value: "Turmeric", key: "crop_turmeric" },
+];
+const MANDIS: { value: string; key: any }[] = [
+  { value: "Coimbatore", key: "mandi_coimbatore" },
+  { value: "Madurai", key: "mandi_madurai" },
+  { value: "Chennai-Koyambedu", key: "mandi_chennai" },
+  { value: "Erode", key: "mandi_erode" },
+  { value: "Salem", key: "mandi_salem" },
+  { value: "Thanjavur", key: "mandi_thanjavur" },
+  { value: "Trichy", key: "mandi_trichy" },
+  { value: "Dindigul", key: "mandi_dindigul" },
+];
 
 type ForecastPoint = { date: string; price: number; lower: number; upper: number };
 type HistoryPoint = { date: string; price: number };
@@ -53,15 +62,15 @@ type ApiResponse = {
   insight: Insight | null;
 };
 
-const fmtDate = (iso: string) =>
-  new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" });
-
 export default function PriceForecast() {
   const { t, lang } = useLanguage();
   const [crop, setCrop] = useState<string>("Paddy");
   const [mandi, setMandi] = useState<string>("Coimbatore");
   const [data, setData] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const fmtDate = (iso: string) =>
+    new Date(iso).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { month: "short", day: "numeric" });
 
   useEffect(() => {
     let cancelled = false;
@@ -142,8 +151,8 @@ export default function PriceForecast() {
             </SelectTrigger>
             <SelectContent>
               {CROPS.map((c) => (
-                <SelectItem key={c} value={c}>
-                  {c}
+                <SelectItem key={c.value} value={c.value}>
+                  {t(c.key)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -157,8 +166,8 @@ export default function PriceForecast() {
             </SelectTrigger>
             <SelectContent>
               {MANDIS.map((m) => (
-                <SelectItem key={m} value={m}>
-                  {m}
+                <SelectItem key={m.value} value={m.value}>
+                  {t(m.key)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -218,7 +227,7 @@ export default function PriceForecast() {
                 labelFormatter={(l) => fmtDate(l as string)}
                 formatter={(value: number | number[], name: string) => {
                   if (Array.isArray(value)) return [`₹${value[0]} – ₹${value[1]}`, t("pf_confidence")];
-                  return [`₹${value}/quintal`, name];
+                  return [`₹${value}${t("pf_per_quintal_short")}`, name];
                 }}
               />
               {/* Confidence band */}

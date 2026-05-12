@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { imageBase64 } = await req.json();
+    const { imageBase64, language } = await req.json();
     if (!imageBase64) {
       return new Response(JSON.stringify({ error: "imageBase64 is required" }), {
         status: 400,
@@ -24,6 +24,12 @@ serve(async (req) => {
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
+
+    const isTa = language === "ta";
+    const langInstr = isTa
+      ? `IMPORTANT: Respond entirely in Tamil (தமிழ்). The fields crop_type, disease, symptoms[], treatment[], and additional_notes MUST be written in natural farmer-friendly Tamil script. Do NOT use English words.
+The 'severity' field MUST remain one of these EXACT English enum values: "Healthy", "Mild", "Moderate", "Severe" (these are mapped to Tamil on the client). For a healthy plant, set 'disease' to the Tamil word "ஆரோக்கியம்".`
+      : `Respond in English. For a healthy plant set 'disease' to "Healthy".`;
 
     const systemPrompt = `You are an expert agricultural plant pathologist specializing in crop diseases common in India, particularly Tamil Nadu.
 
@@ -37,7 +43,7 @@ Analyze the provided crop leaf/plant image carefully. Identify:
 You MUST respond using the "analyze_crop" tool.
 
 If the image is not a plant/crop image, still use the tool but set is_plant to false.
-If the plant appears healthy with no disease, set disease to "Healthy" with appropriate confidence.`;
+${langInstr}`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",

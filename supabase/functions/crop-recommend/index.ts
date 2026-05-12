@@ -9,9 +9,14 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { soilType, weather, cropHistory, region } = await req.json();
+    const { soilType, weather, cropHistory, region, language } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+
+    const isTa = language === "ta";
+    const langInstr = isTa
+      ? "IMPORTANT: Respond entirely in Tamil (தமிழ்) language. Every string field — crop name, reason, expectedYield, plantingWindow, careTips, summary — must be in natural farmer-friendly Tamil. Do NOT use English words; use Tamil script throughout."
+      : "Respond in English.";
 
     const systemPrompt = `You are AgriConnect AI, an expert agricultural advisor for Tamil Nadu, India. 
 Given farmer inputs about soil type, weather conditions, crop history, and region, provide personalized crop recommendations.
@@ -24,7 +29,8 @@ For each recommended crop, provide:
 - Best planting window
 - Key care tips
 
-Keep recommendations practical and region-specific to Tamil Nadu. Recommend 3-5 crops. Format your response as JSON using the tool provided.`;
+Keep recommendations practical and region-specific to Tamil Nadu. Recommend 3-5 crops. Format your response as JSON using the tool provided.
+${langInstr}`;
 
     const userPrompt = `Farmer details:
 - Soil Type: ${soilType}

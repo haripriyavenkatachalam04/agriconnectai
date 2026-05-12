@@ -24,7 +24,7 @@ interface AnalysisResult {
 }
 
 export default function DiseaseDetection() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [dragActive, setDragActive] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
@@ -56,7 +56,7 @@ export default function DiseaseDetection() {
       }, 400);
 
       const { data, error } = await supabase.functions.invoke("disease-detect", {
-        body: { imageBase64: base64 },
+        body: { imageBase64: base64, language: lang },
       });
 
       clearInterval(interval);
@@ -125,7 +125,7 @@ export default function DiseaseDetection() {
     }
   };
 
-  const isHealthy = result?.diseases?.every((d) => d.disease === "Healthy");
+  const isHealthy = result?.diseases?.every((d) => d.severity === "Healthy");
   const sevLabel = (s: string) => {
     const map: Record<string, any> = { Healthy: "sev_healthy", Mild: "sev_mild", Moderate: "sev_moderate", Severe: "sev_severe" };
     return map[s] ? t(map[s]) : s;
@@ -218,13 +218,13 @@ export default function DiseaseDetection() {
                     className="glass-card rounded-2xl p-6"
                   >
                     <div className="flex items-center gap-2 mb-3">
-                      {d.disease === "Healthy" ? (
+                      {d.severity === "Healthy" ? (
                         <ShieldCheck className="h-5 w-5 text-green-600" />
                       ) : (
                         <AlertTriangle className="h-5 w-5 text-destructive" />
                       )}
                       <span className="font-semibold">
-                        {d.disease === "Healthy" ? t("dd_healthy") : t("dd_disease_detected")}
+                        {d.severity === "Healthy" ? t("dd_healthy") : t("dd_disease_detected")}
                       </span>
                     </div>
 
@@ -267,7 +267,7 @@ export default function DiseaseDetection() {
                     )}
 
                     {/* Treatment */}
-                    {d.treatment.length > 0 && d.disease !== "Healthy" && (
+                    {d.treatment.length > 0 && d.severity !== "Healthy" && (
                       <div className="mt-4">
                         <div className="flex items-center gap-2 mb-2">
                           <CheckCircle2 className="h-4 w-4 text-primary" />
@@ -316,9 +316,16 @@ export default function DiseaseDetection() {
                   {t("dd_empty")}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2 justify-center">
-                  {["Paddy", "Sugarcane", "Tomato", "Cotton", "Groundnut", "Banana"].map((crop) => (
-                    <span key={crop} className="rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
-                      {crop}
+                  {[
+                    { en: "Paddy", ta: "நெல்" },
+                    { en: "Sugarcane", ta: "கரும்பு" },
+                    { en: "Tomato", ta: "தக்காளி" },
+                    { en: "Cotton", ta: "பருத்தி" },
+                    { en: "Groundnut", ta: "நிலக்கடலை" },
+                    { en: "Banana", ta: "வாழை" },
+                  ].map((crop) => (
+                    <span key={crop.en} className="rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
+                      {lang === "ta" ? crop.ta : crop.en}
                     </span>
                   ))}
                 </div>
