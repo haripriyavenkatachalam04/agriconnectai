@@ -126,6 +126,10 @@ export default function DiseaseDetection() {
   };
 
   const isHealthy = result?.diseases?.every((d) => d.disease === "Healthy");
+  const sevLabel = (s: string) => {
+    const map: Record<string, any> = { Healthy: "sev_healthy", Mild: "sev_mild", Moderate: "sev_moderate", Severe: "sev_severe" };
+    return map[s] ? t(map[s]) : s;
+  };
 
   return (
     <div className="container py-10">
@@ -234,7 +238,7 @@ export default function DiseaseDetection() {
                       <div>
                         <p className="text-sm text-muted-foreground">{t("dd_severity")}</p>
                         <p className={`text-lg font-semibold ${severityColor(d.severity)}`}>
-                          {d.severity}
+                          {sevLabel(d.severity)}
                         </p>
                       </div>
                     </div>
