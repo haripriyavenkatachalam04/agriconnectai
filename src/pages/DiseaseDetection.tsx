@@ -267,7 +267,7 @@ export default function DiseaseDetection() {
                     )}
 
                     {/* Treatment */}
-                    {d.treatment.length > 0 && d.disease !== "Healthy" && (
+                    {d.treatment.length > 0 && d.severity !== "Healthy" && (
                       <div className="mt-4">
                         <div className="flex items-center gap-2 mb-2">
                           <CheckCircle2 className="h-4 w-4 text-primary" />
