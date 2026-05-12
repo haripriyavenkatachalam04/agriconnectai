@@ -69,6 +69,9 @@ export default function PriceForecast() {
   const [data, setData] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const fmtDate = (iso: string) =>
+    new Date(iso).toLocaleDateString(lang === "ta" ? "ta-IN" : "en-IN", { month: "short", day: "numeric" });
+
   useEffect(() => {
     let cancelled = false;
     const run = async () => {
