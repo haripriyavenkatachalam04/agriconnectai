@@ -24,7 +24,7 @@ interface AnalysisResult {
 }
 
 export default function DiseaseDetection() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [dragActive, setDragActive] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
@@ -56,7 +56,7 @@ export default function DiseaseDetection() {
       }, 400);
 
       const { data, error } = await supabase.functions.invoke("disease-detect", {
-        body: { imageBase64: base64 },
+        body: { imageBase64: base64, language: lang },
       });
 
       clearInterval(interval);
