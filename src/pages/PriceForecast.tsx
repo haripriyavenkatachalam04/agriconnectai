@@ -18,17 +18,26 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { ModelStatus } from "@/components/ModelStatus";
 
-const CROPS = ["Paddy", "Sugarcane", "Tomato", "Onion", "Cotton", "Groundnut", "Maize", "Turmeric"] as const;
-const MANDIS = [
-  "Coimbatore",
-  "Madurai",
-  "Chennai-Koyambedu",
-  "Erode",
-  "Salem",
-  "Thanjavur",
-  "Trichy",
-  "Dindigul",
-] as const;
+const CROPS: { value: string; key: any }[] = [
+  { value: "Paddy", key: "crop_paddy" },
+  { value: "Sugarcane", key: "crop_sugarcane" },
+  { value: "Tomato", key: "crop_tomato" },
+  { value: "Onion", key: "crop_onion" },
+  { value: "Cotton", key: "crop_cotton" },
+  { value: "Groundnut", key: "crop_groundnut" },
+  { value: "Maize", key: "crop_maize" },
+  { value: "Turmeric", key: "crop_turmeric" },
+];
+const MANDIS: { value: string; key: any }[] = [
+  { value: "Coimbatore", key: "mandi_coimbatore" },
+  { value: "Madurai", key: "mandi_madurai" },
+  { value: "Chennai-Koyambedu", key: "mandi_chennai" },
+  { value: "Erode", key: "mandi_erode" },
+  { value: "Salem", key: "mandi_salem" },
+  { value: "Thanjavur", key: "mandi_thanjavur" },
+  { value: "Trichy", key: "mandi_trichy" },
+  { value: "Dindigul", key: "mandi_dindigul" },
+];
 
 type ForecastPoint = { date: string; price: number; lower: number; upper: number };
 type HistoryPoint = { date: string; price: number };
@@ -52,9 +61,6 @@ type ApiResponse = {
   endPrice: number;
   insight: Insight | null;
 };
-
-const fmtDate = (iso: string) =>
-  new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" });
 
 export default function PriceForecast() {
   const { t, lang } = useLanguage();
