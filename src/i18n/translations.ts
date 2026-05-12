@@ -413,5 +413,6 @@ export const translations = {
     ms_csv_format_hint:
       "CSV வடிவம்: date, crop, mandi, price. பதிவேற்றிய பின் Colab திறந்து இந்த தரவில் பயிற்சி செய்க — மாதிரி தானாக பதிவாகும். ~1 நிமிடத்தில் பயன்பாட்டிற்கு வரும்.",
   },
+} as const;
 
 export type TranslationKey = keyof typeof translations.en;
